@@ -116,6 +116,9 @@ module.exports = function createPlugin(app) {
   function ft_to_m(distance) {
     return distance * 0.3048;
   }
+  const key ='your_key_value';
+  const hash = crypto.createHash('md5').update(key).digest('hex');
+  const urn = hash.substring(0,7)
 
   read_info = function read_data(m) {
     // app.debug(m);
@@ -201,13 +204,7 @@ module.exports = function createPlugin(app) {
     if (m.squawk) {
       properties.value.squawk = m.squawk;
     }
-    const key ='your_key_value';
-    const hash = crypto.createHash('md5').update(key).digest('hex');
-    const urn = hash.substring(0,7)
     const update = {
-
-
-
       context: "vessels.urn:mrn:imo:mmsi:" + urn,
       updates: [
         {
