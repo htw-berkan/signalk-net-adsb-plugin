@@ -1,4 +1,9 @@
 /*
+
+'now', 'hex', 'type', 'flight', 'r', 't', 'desc', 'alt_baro', 'alt_geom', 'gs', 'ias', 'tas', 'mach', 'wd', 'ws', 'track', 'track_rate', 'roll', 'mag_heading', 'true_heading', 'baro_rate', 'geom_rate', 'squawk', 'emergency', 'category', 'nav_qnh', 'nav_altitude_mcp', 'nav_altitude_fms', 'nav_modes' ['vnav', 'tcas'], 'lat', 'lon', 'nic', 'rc', 'seen_pos', 'r_dst', 'r_dir', 'version', 'nic_baro', 'nac_p', 'nac_v', 'sil', 'sil_type', 'gva', 'sda', 'alert', 'spi', 'mlat[]', 'tisb[]', 'messages', 'seen', 'rssi'
+'type', 'flight', 'r', 't', 'desc', 'alt_baro', 'alt_geom', 'gs', 'ias', 'tas', 'mach', 'wd', 'ws', 'track', 'track_rate', 'roll', 'mag_heading', 'true_heading', 'baro_rate', 'geom_rate', 'squawk', 'emergency', 'category', 'nav_qnh', 'nav_altitude_mcp', 'nav_altitude_fms', 'nav_modes' ['vnav', 'tcas'], 'lat', 'lon', 'nic', 'rc', 'seen_pos', 'r_dst', 'r_dir', 'version', 'nic_baro', 'nac_p', 'nac_v', 'sil', 'sil_type', 'gva', 'sda', 'alert', 'spi', 'mlat[]', 'tisb[]', 'messages', 'seen', 'rssi'
+
+
 beginnings of an ADS-B signalk plugin
 
 inspired by Karl-Erik Gustafsson net-ais-plugin
@@ -7,6 +12,7 @@ MIT License
 
 const client = require("@signalk/client");
 var net = require("net");
+const crypto = require("crypto");
 
 module.exports = function createPlugin(app) {
   const plugin = {};
@@ -201,8 +207,14 @@ module.exports = function createPlugin(app) {
       properties.value.squawk = m.squawk;
     }
 
+    const crypto = require('crypto');
+
+    const key = "example_key";
+    const hashValue = crypto.createHash('md5').update(key).digest('hex').slice(0, 7);
+    let urn = 'vessels.urn:mrn:imo:mmsi:' + hashValue;
+
     const update = {
-      context: "aircraft.urn:mrn:signalk:uuid:" + m.hex + uuid_postfix,
+      context: urn,
       updates: [
         {
           values: values,
