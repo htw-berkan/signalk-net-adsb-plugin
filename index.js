@@ -200,9 +200,14 @@ module.exports = function createPlugin(app) {
     if (m.squawk) {
       properties.value.squawk = m.squawk;
     }
-
+    const key ='your_key_value';
+    const hash = crypto.createHash('md5').update(key).digest('hex');
+    const urn = hash.substring(0,7)
     const update = {
-      context: "aircraft.urn:mrn:signalk:uuid:" + m.hex + uuid_postfix,
+
+
+
+      context: "vessels.urn:mrn:imo:mmsi:" + urn,
       updates: [
         {
           values: values,
