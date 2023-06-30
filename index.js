@@ -7,6 +7,7 @@ MIT License
 
 const client = require("@signalk/client");
 var net = require("net");
+const crypto = require('crypto');
 
 module.exports = function createPlugin(app) {
   const plugin = {};
