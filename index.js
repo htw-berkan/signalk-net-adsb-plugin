@@ -144,6 +144,10 @@ module.exports = function createPlugin(app) {
         value: new Date(m.now * 1000).toISOString(),
       },
       {
+        path: "test.test",
+        value: "test",
+      },
+      {
         path: "navigation.speedOverGround",
         value: knots_to_mps(m.gs || m.tas),
       },
